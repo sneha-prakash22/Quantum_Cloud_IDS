@@ -1,0 +1,10 @@
+Destination Port
+Total Length of Fwd Packets
+Bwd Packet Length Max
+Bwd Packet Length Mean
+Fwd PSH Flags
+Bwd URG Flags
+Fwd Header Length
+CWE Flag Count
+Init_Win_bytes_forward
+Idle Min
