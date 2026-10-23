@@ -1,10 +1,10 @@
-Destination Port
+Flow Duration
 Total Length of Fwd Packets
-Bwd Packet Length Max
+Fwd Packet Length Min
+Fwd Packet Length Mean
 Bwd Packet Length Mean
-Fwd PSH Flags
-Bwd URG Flags
-Fwd Header Length
-CWE Flag Count
-Init_Win_bytes_forward
-Idle Min
+Bwd IAT Std
+Avg Fwd Segment Size
+Init_Win_bytes_backward
+Active Min
+Idle Mean

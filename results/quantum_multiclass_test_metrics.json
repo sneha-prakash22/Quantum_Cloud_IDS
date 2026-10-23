@@ -1,0 +1,11 @@
+{
+    "accuracy": 0.973146170277693,
+    "macro_f1": 0.8388474854781539,
+    "weighted_f1": 0.9733231418313633,
+    "original_feature_count": 78,
+    "selected_feature_count": 10,
+    "feature_reduction_percent": 87.17948717948718,
+    "training_records": 39324,
+    "testing_records": 9831,
+    "cross_validation_macro_f1": 0.8442
+}

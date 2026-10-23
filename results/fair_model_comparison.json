@@ -1,0 +1,14 @@
+{
+    "Classical RF - 78 features": {
+        "accuracy": 0.9808768182280541,
+        "macro_f1": 0.8701624589267513,
+        "weighted_f1": 0.9801298325164794,
+        "features": 78
+    },
+    "Quantum-inspired RF - 10 features": {
+        "accuracy": 0.973146170277693,
+        "macro_f1": 0.8388474854781539,
+        "weighted_f1": 0.9733231418313633,
+        "features": 10
+    }
+}
