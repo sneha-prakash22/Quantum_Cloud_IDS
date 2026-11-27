@@ -23,6 +23,8 @@ Required dataset and evaluation assets:
 from pathlib import Path
 import json
 import warnings
+import hashlib
+import urllib.request
 
 import joblib
 import numpy as np
@@ -43,6 +45,8 @@ st.set_page_config(
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_PATH = BASE_DIR / "data" / "balanced_ids_dataset.csv"
+MODEL_URL = "https://github.com/sneha-prakash22/Quantum_Cloud_IDS/releases/download/v1.0-model/extra_trees_20_features_model.pkl"
+MODEL_SHA256 = "C2D3466333A7D1C0826C109774E60FE779677173EE4E7CECFBDC27A0E19262F5"
 MODEL_PATH = BASE_DIR / "models" / "extra_trees_20_features_model.pkl"
 ENCODER_PATH = BASE_DIR / "models" / "extra_trees_20_features_label_encoder.pkl"
 METRICS_PATH = BASE_DIR / "results" / "extra_trees_20_features_metrics.json"
@@ -382,6 +386,68 @@ st.markdown(
 # DATA ACCESS
 # -------------------------------------------------------------------
 @st.cache_resource(show_spinner="Loading trained model…")
+
+def calculate_sha256(file_path):
+    sha256 = hashlib.sha256()
+
+    with open(file_path, "rb") as file:
+        for chunk in iter(lambda: file.read(1024 * 1024), b""):
+            sha256.update(chunk)
+
+    return sha256.hexdigest()
+
+
+def ensure_model_available():
+    MODEL_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+    # Check whether a valid model already exists
+    if MODEL_PATH.exists():
+        existing_hash = calculate_sha256(MODEL_PATH)
+
+        if existing_hash.lower() == MODEL_SHA256.lower():
+            return MODEL_PATH
+
+    # Download the model from GitHub
+    temporary_path = MODEL_PATH.with_suffix(
+        MODEL_PATH.suffix + ".part"
+    )
+
+    try:
+        request = urllib.request.Request(
+            MODEL_URL,
+            headers={"User-Agent": "Quantum-Cloud-IDS"}
+        )
+
+        sha256 = hashlib.sha256()
+
+        with urllib.request.urlopen(request, timeout=120) as response:
+            with open(temporary_path, "wb") as output:
+                while True:
+                    chunk = response.read(1024 * 1024)
+
+                    if not chunk:
+                        break
+
+                    output.write(chunk)
+                    sha256.update(chunk)
+
+        # Verify downloaded model
+        downloaded_hash = sha256.hexdigest()
+
+        if downloaded_hash.lower() != MODEL_SHA256.lower():
+            raise ValueError("Model SHA-256 verification failed!")
+
+        # Save verified model
+        temporary_path.replace(MODEL_PATH)
+
+        return MODEL_PATH
+
+    except Exception:
+        if temporary_path.exists():
+            temporary_path.unlink()
+
+        raise
+
 def load_model(path_string: str):
     path = Path(path_string)
     if not path.exists():
@@ -428,12 +494,17 @@ def load_dataset(path_string: str):
         return pd.DataFrame()
 
 
+
 model = None
 model_error = None
+
 try:
-    model = load_model(str(MODEL_PATH))
+    verified_model_path = ensure_model_available()
+    model = load_model(str(verified_model_path))
+
 except Exception as exc:
     model_error = str(exc)
+
 
 metrics = load_json(str(METRICS_PATH))
 baseline_metrics = load_json(str(BASELINE_METRICS_PATH))
