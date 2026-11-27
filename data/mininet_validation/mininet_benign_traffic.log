@@ -1,0 +1,22 @@
+Experiment: Controlled benign TCP traffic
+Source host: h1 (10.0.0.1)
+Destination host: h2 (10.0.0.2)
+Capture interface: h1-eth0
+TCP destination port: 5001
+Traffic generator: iperf 2
+Client duration: 15 seconds
+
+=== IPERF CLIENT OUTPUT ===
+tcp connect failed: No route to host
+------------------------------------------------------------
+Client connecting to 10.0.0.2, TCP port 5001
+TCP window size: -1.00 Byte (default)
+------------------------------------------------------------
+[  1] local 0.0.0.0 port 0 connected with 10.0.0.2 port 5001
+
+
+=== TCPDUMP CAPTURE SUMMARY ===
+tcpdump: listening on h1-eth0, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+0 packets captured
+0 packets received by filter
+0 packets dropped by kernel

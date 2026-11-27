@@ -1,0 +1,138 @@
+{
+    "model": "XGBoost",
+    "feature_count": 20,
+    "selected_features": [
+        "Destination Port",
+        "Bwd Packet Length Max",
+        "Flow Packets/s",
+        "Fwd IAT Max",
+        "Fwd IAT Min",
+        "Bwd IAT Total",
+        "Bwd IAT Std",
+        "Bwd IAT Min",
+        "Fwd PSH Flags",
+        "PSH Flag Count",
+        "URG Flag Count",
+        "Avg Bwd Segment Size",
+        "Fwd Header Length.1",
+        "Subflow Bwd Packets",
+        "Init_Win_bytes_backward",
+        "act_data_pkt_fwd",
+        "Active Max",
+        "Idle Mean",
+        "Idle Std",
+        "Idle Max"
+    ],
+    "accuracy": 0.9808768182280541,
+    "accuracy_percent": 98.08768182280541,
+    "macro_f1": 0.8596878949328871,
+    "weighted_f1": 0.9800004382135897,
+    "training_time_seconds": 19.72983145713806,
+    "random_state": 42,
+    "test_size": 0.2,
+    "classification_report": {
+        "BENIGN": {
+            "precision": 0.9890547263681592,
+            "recall": 0.994994994994995,
+            "f1-score": 0.9920159680638723,
+            "support": 999.0
+        },
+        "Bot": {
+            "precision": 0.989821882951654,
+            "recall": 0.9948849104859335,
+            "f1-score": 0.9923469387755102,
+            "support": 391.0
+        },
+        "DDoS": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 1000.0
+        },
+        "DoS GoldenEye": {
+            "precision": 1.0,
+            "recall": 0.998,
+            "f1-score": 0.998998998998999,
+            "support": 1000.0
+        },
+        "DoS Hulk": {
+            "precision": 0.9949899799599199,
+            "recall": 0.995987963891675,
+            "f1-score": 0.9954887218045113,
+            "support": 997.0
+        },
+        "DoS Slowhttptest": {
+            "precision": 0.9919354838709677,
+            "recall": 0.984,
+            "f1-score": 0.9879518072289156,
+            "support": 1000.0
+        },
+        "DoS slowloris": {
+            "precision": 0.9840478564307079,
+            "recall": 0.987,
+            "f1-score": 0.9855217174238642,
+            "support": 1000.0
+        },
+        "FTP-Patator": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 1000.0
+        },
+        "Heartbleed": {
+            "precision": 1.0,
+            "recall": 0.5,
+            "f1-score": 0.6666666666666666,
+            "support": 2.0
+        },
+        "Infiltration": {
+            "precision": 1.0,
+            "recall": 0.5714285714285714,
+            "f1-score": 0.7272727272727273,
+            "support": 7.0
+        },
+        "PortScan": {
+            "precision": 1.0,
+            "recall": 0.999,
+            "f1-score": 0.9994997498749375,
+            "support": 1000.0
+        },
+        "SSH-Patator": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 1000.0
+        },
+        "Web Attack � Brute Force": {
+            "precision": 0.7304347826086957,
+            "recall": 0.8372093023255814,
+            "f1-score": 0.7801857585139319,
+            "support": 301.0
+        },
+        "Web Attack � Sql Injection": {
+            "precision": 1.0,
+            "recall": 0.25,
+            "f1-score": 0.4,
+            "support": 4.0
+        },
+        "Web Attack � XSS": {
+            "precision": 0.44565217391304346,
+            "recall": 0.3153846153846154,
+            "f1-score": 0.36936936936936937,
+            "support": 130.0
+        },
+        "accuracy": 0.9808768182280541,
+        "macro avg": {
+            "precision": 0.9417291257402097,
+            "recall": 0.8285260239007582,
+            "f1-score": 0.8596878949328871,
+            "support": 9831.0
+        },
+        "weighted avg": {
+            "precision": 0.9799481263728528,
+            "recall": 0.9808768182280541,
+            "f1-score": 0.9800004382135897,
+            "support": 9831.0
+        }
+    }
+}

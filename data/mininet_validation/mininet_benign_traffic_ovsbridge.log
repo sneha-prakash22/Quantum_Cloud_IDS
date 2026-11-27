@@ -1,0 +1,51 @@
+Experiment: Controlled benign TCP traffic
+Topology: Two hosts connected through OVSBridge
+Source host: h1 (10.0.0.1)
+Destination host: h2 (10.0.0.2)
+Capture interface: h1-eth0
+TCP destination port: 5001
+Traffic generator: iperf 2
+Client duration: 15 seconds
+Pre-capture connectivity packet loss: 0.0%
+
+=== IPERF CLIENT OUTPUT ===
+------------------------------------------------------------
+Client connecting to 10.0.0.2, TCP port 5001
+TCP window size: 85.3 KByte (default)
+------------------------------------------------------------
+[  1] local 10.0.0.1 port 57518 connected with 10.0.0.2 port 5001
+[ ID] Interval       Transfer     Bandwidth
+[  1] 0.0000-1.0000 sec  5.44 GBytes  46.7 Gbits/sec
+[  1] 1.0000-2.0000 sec  5.95 GBytes  51.1 Gbits/sec
+[  1] 2.0000-3.0000 sec  5.87 GBytes  50.4 Gbits/sec
+[  1] 3.0000-4.0000 sec  5.79 GBytes  49.7 Gbits/sec
+[  1] 4.0000-5.0000 sec  5.86 GBytes  50.3 Gbits/sec
+[  1] 5.0000-6.0000 sec  5.90 GBytes  50.7 Gbits/sec
+[  1] 6.0000-7.0000 sec  5.94 GBytes  51.0 Gbits/sec
+[  1] 7.0000-8.0000 sec  5.85 GBytes  50.3 Gbits/sec
+[  1] 8.0000-9.0000 sec  5.54 GBytes  47.6 Gbits/sec
+[  1] 9.0000-10.0000 sec  5.58 GBytes  47.9 Gbits/sec
+[  1] 10.0000-11.0000 sec  5.83 GBytes  50.1 Gbits/sec
+[  1] 11.0000-12.0000 sec  5.89 GBytes  50.6 Gbits/sec
+[  1] 12.0000-13.0000 sec  5.73 GBytes  49.2 Gbits/sec
+[  1] 13.0000-14.0000 sec  5.96 GBytes  51.2 Gbits/sec
+[  1] 14.0000-15.0000 sec  5.60 GBytes  48.1 Gbits/sec
+[  1] 0.0000-15.0086 sec  86.7 GBytes  49.6 Gbits/sec
+
+iperf client exit code: 0
+
+=== IPERF SERVER OUTPUT ===
+------------------------------------------------------------
+Server listening on TCP port 5001
+TCP window size: 85.3 KByte (default)
+------------------------------------------------------------
+[  1] local 10.0.0.2 port 5001 connected with 10.0.0.1 port 57518
+[ ID] Interval       Transfer     Bandwidth
+[  1] 0.0000-15.0003 sec  86.7 GBytes  49.7 Gbits/sec
+
+
+=== TCPDUMP CAPTURE SUMMARY ===
+tcpdump: listening on h1-eth0, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+28109 packets captured
+2871853 packets received by filter
+2843744 packets dropped by kernel

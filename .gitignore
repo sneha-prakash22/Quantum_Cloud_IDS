@@ -3,3 +3,24 @@ __pycache__/
 *.pyc
 .env
 .streamlit/secrets.toml
+
+# Large raw packet captures (excluded from the public repository)
+data/pcaps/
+data/mininet_validation/mininet_benign_tcp_ovsbridge.pcap
+
+# Large PCAP-derived intermediate files (not required by the dashboard)
+results/pcap_flows.csv
+results/pcap_predictions.csv
+results/thursday_pcap_flows.csv
+results/thursday_pcap_predictions.csv
+
+# Large Extra Trees model binaries (distributed separately through GitHub Releases)
+models/extra_trees_20_features_model.pkl
+models/extra_trees_78_features_model.pkl
+
+# Older and backup files excluded from the public repository
+dashboard_pre_integration_backup.py
+run_project.py
+src/dashboard.py
+src/quantum_inspired_qpso_lightgbm_seed123_backup.py
+src/test.py

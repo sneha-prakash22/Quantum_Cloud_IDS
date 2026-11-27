@@ -1,0 +1,12 @@
+{
+    "best_validation_macro_f1": 0.937949760820381,
+    "best_parameters": {
+        "n_estimators": 300,
+        "learning_rate": 0.04806305557569899,
+        "num_leaves": 121,
+        "max_depth": 16,
+        "min_child_samples": 40,
+        "reg_alpha": 0.0,
+        "reg_lambda": 3.8699716995064257
+    }
+}

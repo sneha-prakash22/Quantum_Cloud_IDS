@@ -1,0 +1,180 @@
+{
+    "model": "XGBoost Multiclass",
+    "dataset": "data/balanced_ids_dataset.csv",
+    "total_samples": 49155,
+    "number_of_features": 78,
+    "number_of_classes": 15,
+    "classes": [
+        "BENIGN",
+        "Bot",
+        "DDoS",
+        "DoS GoldenEye",
+        "DoS Hulk",
+        "DoS Slowhttptest",
+        "DoS slowloris",
+        "FTP-Patator",
+        "Heartbleed",
+        "Infiltration",
+        "PortScan",
+        "SSH-Patator",
+        "Web Attack \ufffd Brute Force",
+        "Web Attack \ufffd Sql Injection",
+        "Web Attack \ufffd XSS"
+    ],
+    "train_samples": 39324,
+    "test_samples": 9831,
+    "test_size": 0.2,
+    "random_state": 42,
+    "accuracy": 0.984335265995321,
+    "macro_f1": 0.8851491987333261,
+    "weighted_f1": 0.9836480772755719,
+    "classification_report": {
+        "BENIGN": {
+            "precision": 0.9940119760479041,
+            "recall": 0.996996996996997,
+            "f1-score": 0.9955022488755623,
+            "support": 999.0
+        },
+        "Bot": {
+            "precision": 0.9948979591836735,
+            "recall": 0.9974424552429667,
+            "f1-score": 0.9961685823754789,
+            "support": 391.0
+        },
+        "DDoS": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 1000.0
+        },
+        "DoS GoldenEye": {
+            "precision": 0.998998998998999,
+            "recall": 0.998,
+            "f1-score": 0.9984992496248124,
+            "support": 1000.0
+        },
+        "DoS Hulk": {
+            "precision": 0.996003996003996,
+            "recall": 1.0,
+            "f1-score": 0.997997997997998,
+            "support": 997.0
+        },
+        "DoS Slowhttptest": {
+            "precision": 0.9969849246231156,
+            "recall": 0.992,
+            "f1-score": 0.9944862155388471,
+            "support": 1000.0
+        },
+        "DoS slowloris": {
+            "precision": 0.992,
+            "recall": 0.992,
+            "f1-score": 0.992,
+            "support": 1000.0
+        },
+        "FTP-Patator": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 1000.0
+        },
+        "Heartbleed": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 2.0
+        },
+        "Infiltration": {
+            "precision": 1.0,
+            "recall": 0.5714285714285714,
+            "f1-score": 0.7272727272727273,
+            "support": 7.0
+        },
+        "PortScan": {
+            "precision": 1.0,
+            "recall": 0.999,
+            "f1-score": 0.9994997498749375,
+            "support": 1000.0
+        },
+        "SSH-Patator": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1-score": 1.0,
+            "support": 1000.0
+        },
+        "Web Attack \ufffd Brute Force": {
+            "precision": 0.7551622418879056,
+            "recall": 0.8504983388704319,
+            "f1-score": 0.8,
+            "support": 301.0
+        },
+        "Web Attack \ufffd Sql Injection": {
+            "precision": 0.5,
+            "recall": 0.25,
+            "f1-score": 0.3333333333333333,
+            "support": 4.0
+        },
+        "Web Attack \ufffd XSS": {
+            "precision": 0.5208333333333334,
+            "recall": 0.38461538461538464,
+            "f1-score": 0.4424778761061947,
+            "support": 130.0
+        },
+        "accuracy": 0.984335265995321,
+        "macro avg": {
+            "precision": 0.9165928953385952,
+            "recall": 0.8687987831436235,
+            "f1-score": 0.8851491987333261,
+            "support": 9831.0
+        },
+        "weighted avg": {
+            "precision": 0.9835250881794694,
+            "recall": 0.984335265995321,
+            "f1-score": 0.9836480772755719,
+            "support": 9831.0
+        }
+    },
+    "training_time_seconds": 43.809271812438965,
+    "model_parameters": {
+        "objective": "multi:softprob",
+        "base_score": null,
+        "booster": null,
+        "callbacks": null,
+        "colsample_bylevel": null,
+        "colsample_bynode": null,
+        "colsample_bytree": 0.8,
+        "device": "cpu",
+        "early_stopping_rounds": null,
+        "enable_categorical": false,
+        "eval_metric": "mlogloss",
+        "feature_types": null,
+        "feature_weights": null,
+        "gamma": null,
+        "grow_policy": null,
+        "importance_type": null,
+        "interaction_constraints": null,
+        "learning_rate": 0.05,
+        "max_bin": null,
+        "max_cat_threshold": null,
+        "max_cat_to_onehot": null,
+        "max_delta_step": null,
+        "max_depth": 8,
+        "max_leaves": null,
+        "min_child_weight": 1,
+        "missing": NaN,
+        "monotone_constraints": null,
+        "multi_strategy": null,
+        "n_estimators": 500,
+        "n_jobs": -1,
+        "num_parallel_tree": null,
+        "random_state": 42,
+        "reg_alpha": null,
+        "reg_lambda": 1.0,
+        "sampling_method": null,
+        "scale_pos_weight": null,
+        "subsample": 0.8,
+        "tree_method": "hist",
+        "validate_parameters": null,
+        "verbosity": null,
+        "num_class": 15
+    }
+}

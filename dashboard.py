@@ -5,13 +5,19 @@ Professional Streamlit research dashboard.
 Run from the project root:
     streamlit run dashboard.py
 
-Expected project files:
-    data/Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv
-    models/quantum_multiclass_model.pkl
-    models/quantum_multiclass_selected_features.txt
-    results/quantum_multiclass_test_metrics.json
-    results/fair_model_comparison.json
-    results/quantum_feature_selection_history.csv
+Primary dashboard model:
+    models/extra_trees_20_features_model.pkl
+    models/extra_trees_20_features_label_encoder.pkl
+
+Required dataset and evaluation assets:
+    data/balanced_ids_dataset.csv
+    results/extra_trees_20_features_metrics.json
+    results/extra_trees_78_features_metrics.json
+    results/extra_trees_20_features_feature_importance.csv
+    results/extra_trees_78_features_feature_importance.csv
+    results/extra_trees_20_features_confusion_matrix.csv
+    results/extra_trees_78_features_confusion_matrix.csv
+    results/mininet_validation/
 """
 
 from pathlib import Path
@@ -36,11 +42,19 @@ st.set_page_config(
 )
 
 BASE_DIR = Path(__file__).resolve().parent
-DATA_PATH = BASE_DIR / "data" / "Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv"
-MODEL_PATH = BASE_DIR / "models" / "quantum_multiclass_model.pkl"
-FEATURE_PATH = BASE_DIR / "models" / "quantum_multiclass_selected_features.txt"
-METRICS_PATH = BASE_DIR / "results" / "quantum_multiclass_test_metrics.json"
-COMPARISON_PATH = BASE_DIR / "results" / "fair_model_comparison.json"
+DATA_PATH = BASE_DIR / "data" / "balanced_ids_dataset.csv"
+MODEL_PATH = BASE_DIR / "models" / "extra_trees_20_features_model.pkl"
+ENCODER_PATH = BASE_DIR / "models" / "extra_trees_20_features_label_encoder.pkl"
+METRICS_PATH = BASE_DIR / "results" / "extra_trees_20_features_metrics.json"
+BASELINE_METRICS_PATH = BASE_DIR / "results" / "extra_trees_78_features_metrics.json"
+IMPORTANCE_20_PATH = BASE_DIR / "results" / "extra_trees_20_features_feature_importance.csv"
+IMPORTANCE_78_PATH = BASE_DIR / "results" / "extra_trees_78_features_feature_importance.csv"
+CONFUSION_20_PATH = BASE_DIR / "results" / "extra_trees_20_features_confusion_matrix.csv"
+CONFUSION_78_PATH = BASE_DIR / "results" / "extra_trees_78_features_confusion_matrix.csv"
+MININET_DIR = BASE_DIR / "results" / "mininet_validation"
+MININET_FLOWS_PATH = MININET_DIR / "mininet_benign_tcp_paced_001_flows.csv"
+MININET_PREDICTIONS_PATH = MININET_DIR / "mininet_benign_tcp_paced_001_predictions.csv"
+MININET_MANIFEST_PATH = MININET_DIR / "mininet_validation_sha256_manifest.csv"
 HISTORY_PATH = BASE_DIR / "results" / "quantum_feature_selection_history.csv"
 
 # -------------------------------------------------------------------
@@ -167,6 +181,198 @@ st.markdown(
     .status-dot { display:inline-block; width:8px; height:8px; border-radius:50%; background:var(--green); margin-right:7px; }
     .footer { text-align:center; color:#71839c; font-size:.77rem; padding:20px 0 5px; }
     .muted { color: #91a2ba; }
+
+    /* ---------------------------------------------------------------
+       LIGHT THEME OVERRIDES
+       --------------------------------------------------------------- */
+    :root {
+        --bg: #ffffff;
+        --panel: #ffffff;
+        --panel-2: #f7f9fc;
+        --line: #e2e8f0;
+        --text: #172b4d;
+        --muted: #64748b;
+        --cyan: #0891b2;
+        --blue: #2563eb;
+        --green: #16a34a;
+        --amber: #d97706;
+        --red: #dc2626;
+    }
+
+    .stApp,
+    [data-testid="stAppViewContainer"] {
+        background: #ffffff !important;
+        color: #172b4d !important;
+    }
+
+    [data-testid="stHeader"] {
+        background: rgba(255,255,255,.96) !important;
+    }
+
+    [data-testid="stSidebar"] {
+        background: #f5f7fb !important;
+        border-right: 1px solid #e2e8f0 !important;
+    }
+
+    [data-testid="stSidebar"] * {
+        color: #26364b;
+    }
+
+    [data-testid="stSidebar"] [data-testid="stRadio"] label {
+        color: #26364b !important;
+    }
+
+    [data-testid="stSidebar"] [data-testid="stRadio"] label:hover {
+        background: #e8eef8;
+    }
+
+    h1, h2, h3, h4, h5, h6,
+    [data-testid="stMarkdownContainer"] h1,
+    [data-testid="stMarkdownContainer"] h2,
+    [data-testid="stMarkdownContainer"] h3 {
+        color: #172b4d !important;
+    }
+
+    p, li, [data-testid="stMarkdownContainer"] {
+        color: #334155;
+    }
+
+    label, .stCaption, [data-testid="stCaptionContainer"] {
+        color: #64748b !important;
+    }
+
+    [data-testid="stMetric"] {
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+        box-shadow: 0 3px 12px rgba(15,23,42,.045) !important;
+    }
+
+    [data-testid="stMetricLabel"] {
+        color: #64748b !important;
+    }
+
+    [data-testid="stMetricValue"] {
+        color: #172b4d !important;
+    }
+
+    [data-testid="stMetricDelta"] {
+        color: #475569 !important;
+    }
+
+    [data-testid="stVerticalBlockBorderWrapper"] {
+        border-color: #e2e8f0 !important;
+        background: #ffffff !important;
+    }
+
+    .brand {
+        background: linear-gradient(135deg, #ffffff, #edf5ff) !important;
+        border: 1px solid #dbeafe !important;
+    }
+
+    .brand-name {
+        color: #172b4d !important;
+    }
+
+    .brand-sub {
+        color: #64748b !important;
+    }
+
+    .eyebrow {
+        color: #087e9b !important;
+    }
+
+    .hero {
+        background: linear-gradient(115deg, #ffffff, #f0f6ff 72%, #e9fafa) !important;
+        border: 1px solid #dbeafe !important;
+        box-shadow: 0 8px 26px rgba(15,23,42,.055) !important;
+    }
+
+    .hero h1 {
+        color: #172b4d !important;
+    }
+
+    .hero p {
+        color: #475569 !important;
+    }
+
+    .pill {
+        background: #ffffff !important;
+        border: 1px solid #dbeafe !important;
+        color: #1e40af !important;
+    }
+
+    .section-kicker {
+        color: #64748b !important;
+    }
+
+    .panel {
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+        box-shadow: 0 3px 12px rgba(15,23,42,.035);
+    }
+
+    .panel-label {
+        color: #64748b !important;
+    }
+
+    .panel-value {
+        color: #172b4d !important;
+    }
+
+    .panel-note, .muted {
+        color: #64748b !important;
+    }
+
+    .footer {
+        color: #64748b !important;
+    }
+
+    div.stButton > button,
+    div.stDownloadButton > button,
+    div.stFormSubmitButton > button {
+        background: #2563eb !important;
+        color: #ffffff !important;
+        border: 1px solid #2563eb !important;
+    }
+
+    div.stButton > button:hover,
+    div.stDownloadButton > button:hover,
+    div.stFormSubmitButton > button:hover {
+        background: #1d4ed8 !important;
+        border-color: #1d4ed8 !important;
+        box-shadow: 0 5px 14px rgba(37,99,235,.16) !important;
+    }
+
+    input, textarea,
+    [data-baseweb="select"] > div,
+    [data-baseweb="input"] > div {
+        background: #ffffff !important;
+        color: #172b4d !important;
+        border-color: #cbd5e1 !important;
+    }
+
+    [data-testid="stDataFrame"],
+    [data-testid="stTable"] {
+        border: 1px solid #e2e8f0 !important;
+        background: #ffffff !important;
+    }
+
+    [data-baseweb="tab"] {
+        color: #475569 !important;
+    }
+
+    [data-baseweb="tab"][aria-selected="true"] {
+        color: #1d4ed8 !important;
+    }
+
+    hr {
+        border-color: #e2e8f0 !important;
+    }
+
+    div[data-testid="stAlert"] {
+        border-radius: 12px;
+    }
+
     </style>
     """,
     unsafe_allow_html=True,
@@ -229,9 +435,16 @@ try:
 except Exception as exc:
     model_error = str(exc)
 
-selected_features = load_features(str(FEATURE_PATH))
 metrics = load_json(str(METRICS_PATH))
-comparison = load_json(str(COMPARISON_PATH))
+baseline_metrics = load_json(str(BASELINE_METRICS_PATH))
+selected_features = metrics.get("selected_features", [])
+comparison = {}
+label_encoder = None
+encoder_error = None
+try:
+    label_encoder = load_model(str(ENCODER_PATH))
+except Exception as exc:
+    encoder_error = str(exc)
 dataset = load_dataset(str(DATA_PATH))
 
 # -------------------------------------------------------------------
@@ -296,11 +509,17 @@ def show_missing_assets():
     missing = []
     if model is None:
         missing.append(str(MODEL_PATH.relative_to(BASE_DIR)))
+    if label_encoder is None:
+        missing.append(str(ENCODER_PATH.relative_to(BASE_DIR)))
     if not selected_features:
-        missing.append(str(FEATURE_PATH.relative_to(BASE_DIR)))
+        missing.append(str(METRICS_PATH.relative_to(BASE_DIR)) + " (selected_features)")
     if missing:
         st.warning("Some required project assets could not be loaded: " + ", ".join(missing))
         st.caption("Keep dashboard.py in the project root and confirm the paths above. The dashboard will still show available dataset and result information.")
+    if model_error:
+        st.error("Model loading error: " + model_error)
+    if encoder_error:
+        st.error("Label encoder loading error: " + encoder_error)
 
 
 def download_csv(frame, label, filename, key):
@@ -342,12 +561,13 @@ with st.sidebar:
             "Feature Intelligence",
             "Model Evaluation",
             "Dataset Explorer",
+            "Mininet Validation",
         ],
         label_visibility="visible",
     )
     st.divider()
     st.markdown("**SYSTEM STATUS**")
-    if model is not None and selected_features:
+    if model is not None and label_encoder is not None and selected_features:
         st.markdown('<span class="status-dot"></span> Model assets loaded', unsafe_allow_html=True)
     else:
         st.markdown("🟠 Model assets need attention")
@@ -367,7 +587,7 @@ render_hero(
     "quantum-inspired feature selection on enterprise-cloud intrusion detection.",
     [
         "⚛ Quantum-inspired feature search",
-        "🧠 Random Forest classifier",
+        "🧠 Extra Trees classifier",
         "📊 CIC-IDS2017",
         f"🧩 {len(selected_features)} selected features" if selected_features else "🧩 Feature list unavailable",
     ],
@@ -390,7 +610,7 @@ if page == "Security Overview":
     c1.metric("Dataset records", f"{total_records:,}" if total_records else "N/A")
     c2.metric("Traffic classes", f"{class_count:,}" if class_count else "N/A")
     c3.metric("Selected features", str(len(selected_features)) if selected_features else "N/A")
-    c4.metric("Feature reduction", "87.18%" if selected_features else "N/A", help="Based on the project's stated reduction from 78 original features to 10 selected features.")
+    c4.metric("Feature reduction", "74.36%" if selected_features else "N/A", help="Calculated from 78 original features reduced to 20 selected features: (78 - 20) / 78 * 100.")
 
     st.markdown("### Model evaluation snapshot")
     a, b, c, d = st.columns(4)
@@ -420,7 +640,7 @@ if page == "Security Overview":
               <div class="panel-label">02 · Reduce</div><div class="panel-value">Feature search</div>
               <div class="panel-note">Use the saved quantum-inspired selected feature subset.</div>
               <hr>
-              <div class="panel-label">03 · Classify</div><div class="panel-value">Random Forest</div>
+              <div class="panel-label">03 · Classify</div><div class="panel-value">Extra Trees</div>
               <div class="panel-note">Predict a traffic class from the selected input features.</div>
               <hr>
               <div class="panel-label">04 · Evaluate</div><div class="panel-value">Metrics & errors</div>
@@ -460,22 +680,25 @@ elif page == "Detection Lab":
         if submitted:
             input_df = pd.DataFrame([values], columns=selected_features)
             try:
-                prediction = model.predict(input_df)[0]
+                prediction_id = int(model.predict(input_df)[0])
+                predicted_label = str(label_encoder.inverse_transform([prediction_id])[0])
                 probability = safe_predict_proba(model, input_df)
                 confidence = float(np.max(probability[0])) if probability is not None else None
                 st.divider()
                 st.markdown("### Classification result")
-                if str(prediction).strip().upper() == "BENIGN":
-                    st.success(f"BENIGN traffic predicted · {prediction}")
+                if predicted_label.strip().upper() == "BENIGN":
+                    st.success(f"BENIGN traffic predicted · {predicted_label}")
                 else:
-                    st.error(f"Potential intrusion class predicted · {prediction}")
+                    st.error(f"Potential intrusion class predicted · {predicted_label}")
                 r1, r2, r3 = st.columns(3)
-                r1.metric("Predicted class", str(prediction))
+                r1.metric("Predicted class", predicted_label)
                 r2.metric("Model confidence", f"{confidence * 100:.2f}%" if confidence is not None else "Not available")
                 r3.metric("Input features", len(selected_features))
                 if probability is not None and hasattr(model, "classes_"):
+                    class_ids = np.asarray(model.classes_, dtype=int)
+                    class_names = label_encoder.inverse_transform(class_ids)
                     prob_df = pd.DataFrame({
-                        "Traffic class": model.classes_,
+                        "Traffic class": class_names,
                         "Probability (%)": probability[0] * 100,
                     }).sort_values("Probability (%)", ascending=False)
                     st.markdown("### Class probability profile")
@@ -496,8 +719,8 @@ elif page == "Batch Analysis":
     page_heading("Batch threat analysis", "Run the classifier on labelled records from the project dataset and review errors transparently.")
     if dataset.empty:
         st.error(f"Dataset not found or could not be read: {DATA_PATH}")
-    elif model is None or not selected_features:
-        st.error("Batch prediction requires both a trained model and selected-feature list.")
+    elif model is None or label_encoder is None or not selected_features:
+        st.error("Batch prediction requires the trained model, label encoder, and selected-feature list.")
     elif "Label" not in dataset.columns:
         st.error("The dataset does not contain the expected 'Label' column.")
     else:
@@ -526,10 +749,11 @@ elif page == "Batch Analysis":
                         st.error("No usable rows remained after numeric and missing-value checks.")
                     else:
                         predicted = model.predict(valid_X)
+                        predicted_labels = label_encoder.inverse_transform(np.asarray(predicted, dtype=int))
                         results = pd.DataFrame({
                             "Dataset index": valid_X.index,
                             "Actual Label": valid_rows["Actual Label"].to_numpy(),
-                            "Predicted Label": [str(x) for x in predicted],
+                            "Predicted Label": predicted_labels.astype(str),
                         })
                         results["Correct"] = results["Actual Label"].str.casefold() == results["Predicted Label"].str.casefold()
                         total = len(results)
@@ -591,15 +815,26 @@ elif page == "Feature Intelligence":
     else:
         st.warning("Selected features were not loaded. Check the feature file path.")
 
-    st.markdown("### Random Forest feature importance")
-    importance = getattr(model, "feature_importances_", None) if model is not None else None
-    if importance is not None and selected_features and len(importance) == len(selected_features):
-        importance_df = pd.DataFrame({"Feature": selected_features, "Importance": importance})
-        importance_df = importance_df.sort_values("Importance", ascending=False)
-        st.bar_chart(importance_df.set_index("Feature"), use_container_width=True)
-        st.dataframe(importance_df.round(6), use_container_width=True, hide_index=True)
+    st.markdown("### Extra Trees feature importance")
+    if IMPORTANCE_20_PATH.exists() and selected_features:
+        try:
+            saved_importance = pd.read_csv(IMPORTANCE_20_PATH)
+            required_columns = {"feature", "importance"}
+            if not required_columns.issubset(saved_importance.columns):
+                st.warning("The saved Extra Trees feature-importance file has an unexpected column structure.")
+            elif set(saved_importance["feature"].astype(str)) != set(map(str, selected_features)):
+                st.warning("The saved Extra Trees feature-importance records do not match the selected 20-feature list.")
+            else:
+                importance_df = saved_importance[["feature", "importance"]].copy()
+                importance_df.columns = ["Feature", "Importance"]
+                importance_df = importance_df.sort_values("Importance", ascending=False)
+                st.bar_chart(importance_df.set_index("Feature"), use_container_width=True)
+                st.dataframe(importance_df.round(6), use_container_width=True, hide_index=True)
+                download_csv(importance_df, "Export Extra Trees feature importance", "extra_trees_20_feature_importance.csv", "download_importance_20")
+        except (OSError, pd.errors.ParserError, KeyError, ValueError) as exc:
+            st.error(f"Could not read saved Extra Trees feature importance: {exc}")
     else:
-        st.info("Feature importance is unavailable for this estimator or does not align with the selected feature list.")
+        st.info("The saved Extra Trees feature-importance file or selected feature list is unavailable.")
 
     st.markdown("### Optimizer search history")
     if HISTORY_PATH.exists():
@@ -620,45 +855,81 @@ elif page == "Feature Intelligence":
             st.error(f"Could not read optimizer history: {exc}")
     else:
         st.info("Search history has not been generated yet. The dashboard will show it automatically when the CSV is available.")
-    st.caption("Feature importance describes the fitted Random Forest's use of each selected feature. It is not a causal explanation or a quantum selection probability.")
+    st.caption("These values describe the fitted 20-feature Extra Trees classifier's feature importance. They are not quantum-inspired selection probabilities or causal explanations. The quantum-inspired search used a Random Forest candidate evaluator with 3-fold cross-validation; Extra Trees is the final classifier.")
 
 # -------------------------------------------------------------------
 # MODEL EVALUATION
 # -------------------------------------------------------------------
 elif page == "Model Evaluation":
     page_heading("Model evaluation","Compare saved experiment results. ")
-    if comparison:
-        rows = []
-        for name, result in comparison.items():
-            if not isinstance(result, dict):
-                continue
-            acc = result.get("accuracy")
-            macro = result.get("macro_f1")
-            weighted = result.get("weighted_f1")
-            rows.append({
-                "Model": str(name),
-                "Features": result.get("features", "N/A"),
-                "Accuracy (%)": float(acc) * 100 if isinstance(acc, (int, float)) and abs(float(acc)) <= 1 else acc,
-                "Macro F1": macro,
-                "Weighted F1": weighted,
-            })
-        if rows:
-            comparison_df = pd.DataFrame(rows)
-            st.markdown("### Experiment comparison")
-            st.dataframe(comparison_df.round(4), use_container_width=True, hide_index=True)
-            tab1, tab2, tab3 = st.tabs(["Accuracy", "Macro F1", "Weighted F1"])
-            with tab1:
-                if "Accuracy (%)" in comparison_df.columns:
-                    st.bar_chart(comparison_df.set_index("Model")[["Accuracy (%)"]], use_container_width=True)
-            with tab2:
-                st.bar_chart(comparison_df.set_index("Model")[["Macro F1"]].apply(pd.to_numeric, errors="coerce"), use_container_width=True)
-            with tab3:
-                st.bar_chart(comparison_df.set_index("Model")[["Weighted F1"]].apply(pd.to_numeric, errors="coerce"), use_container_width=True)
-            download_csv(comparison_df, "Export comparison table", "model_comparison.csv", "download_model_comparison")
-        else:
-            st.warning("The comparison JSON was found, but no model result entries could be interpreted.")
+    if baseline_metrics and metrics:
+        st.markdown("### Primary experiment comparison")
+        st.caption("Both entries are Extra Trees classifiers evaluated using the saved held-out test results. The comparison isolates the effect of reducing the input feature set from 78 to 20.")
+
+        comparison_df = pd.DataFrame([
+            {
+                "Model": "Extra Trees - 78 features",
+                "Features": baseline_metrics["features"],
+                "Accuracy (%)": float(baseline_metrics["accuracy"]) * 100,
+                "Macro F1 (%)": float(baseline_metrics["macro_f1"]) * 100,
+                "Weighted F1 (%)": float(baseline_metrics["weighted_f1"]) * 100,
+                "Training time (s)": float(baseline_metrics["training_time_seconds"]),
+            },
+            {
+                "Model": "Extra Trees - 20 features",
+                "Features": metrics["features"],
+                "Accuracy (%)": float(metrics["accuracy"]) * 100,
+                "Macro F1 (%)": float(metrics["macro_f1"]) * 100,
+                "Weighted F1 (%)": float(metrics["weighted_f1"]) * 100,
+                "Training time (s)": float(metrics["training_time_seconds"]),
+            },
+        ])
+
+        st.dataframe(comparison_df.round(4), use_container_width=True, hide_index=True)
+        download_csv(comparison_df, "Export Extra Trees comparison", "extra_trees_78_vs_20_comparison.csv", "download_extra_trees_comparison")
+
+        accuracy_delta = (float(metrics["accuracy"]) - float(baseline_metrics["accuracy"])) * 100
+        macro_delta = (float(metrics["macro_f1"]) - float(baseline_metrics["macro_f1"])) * 100
+        weighted_delta = (float(metrics["weighted_f1"]) - float(baseline_metrics["weighted_f1"])) * 100
+        feature_reduction = (1 - float(metrics["features"]) / float(baseline_metrics["features"])) * 100
+        training_time_reduction = (1 - float(metrics["training_time_seconds"]) / float(baseline_metrics["training_time_seconds"])) * 100
+
+        st.markdown("### Change from the 78-feature baseline")
+        d1, d2, d3, d4, d5 = st.columns(5)
+        d1.metric("Accuracy change", f"{accuracy_delta:+.4f} pp")
+        d2.metric("Macro F1 change", f"{macro_delta:+.4f} pp")
+        d3.metric("Weighted F1 change", f"{weighted_delta:+.4f} pp")
+        d4.metric("Feature reduction", f"{feature_reduction:.2f}%")
+        d5.metric("Training-time reduction", f"{training_time_reduction:.2f}%")
+
+        st.markdown("### Held-out test metric comparison")
+        chart_tab1, chart_tab2, chart_tab3 = st.tabs(["Accuracy", "Macro F1", "Weighted F1"])
+        with chart_tab1:
+            st.bar_chart(comparison_df.set_index("Model")[["Accuracy (%)"]], use_container_width=True)
+        with chart_tab2:
+            st.bar_chart(comparison_df.set_index("Model")[["Macro F1 (%)"]], use_container_width=True)
+        with chart_tab3:
+            st.bar_chart(comparison_df.set_index("Model")[["Weighted F1 (%)"]], use_container_width=True)
+
+        st.markdown("### Saved confusion matrices")
+        matrix_tab1, matrix_tab2 = st.tabs(["Extra Trees - 78 features", "Extra Trees - 20 features"])
+        for matrix_tab, matrix_path in [
+            (matrix_tab1, CONFUSION_78_PATH),
+            (matrix_tab2, CONFUSION_20_PATH),
+        ]:
+            with matrix_tab:
+                if matrix_path.exists():
+                    try:
+                        matrix_df = pd.read_csv(matrix_path, index_col=0)
+                        st.dataframe(matrix_df, use_container_width=True)
+                    except (OSError, pd.errors.ParserError, ValueError) as exc:
+                        st.error(f"Could not read confusion matrix: {exc}")
+                else:
+                    st.info(f"Confusion matrix file is unavailable: {matrix_path.name}")
+
+        st.caption("The reported changes are differences between the two saved Extra Trees experiments. Accuracy and F1 changes are percentage-point differences, not relative percentage gains. The 20-feature model shows a modest metric improvement alongside fewer features and lower recorded training time.")
     else:
-        st.warning("Comparison results were not found. Run the project's comparison script to create fair_model_comparison.json.")
+        st.warning("The saved Extra Trees 78-feature baseline or 20-feature metrics are unavailable. Check the two configured metrics files.")
 
     if metrics:
         st.markdown("### Saved test metrics")
@@ -679,10 +950,15 @@ elif page == "Model Evaluation":
 # DATASET EXPLORER
 # -------------------------------------------------------------------
 elif page == "Dataset Explorer":
-    page_heading("Dataset explorer", "Explore the loaded CIC-IDS2017 CSV, filter records, and export a sample.")
+    page_heading("Dataset explorer", "Explore the prepared CIC-IDS2017 dataset, filter records, and export a sample.")
     if dataset.empty:
         st.error(f"Dataset file was not found or could not be read: {DATA_PATH}")
     else:
+        duplicate_count = int(dataset.duplicated().sum())
+        st.caption(
+            f"Source: {DATA_PATH.name}. The prepared dataset retains all {len(dataset):,} records, "
+            f"including {duplicate_count:,} duplicate rows. Class counts are not perfectly equal."
+        )
         label_classes = dataset["Label"].nunique() if "Label" in dataset.columns else 0
         a, b, c, d = st.columns(4)
         a.metric("Records", f"{len(dataset):,}")
@@ -725,6 +1001,147 @@ elif page == "Dataset Explorer":
                 "Unique values": [int(dataset[col].nunique(dropna=True)) for col in dataset.columns],
             })
             st.dataframe(quality, use_container_width=True, hide_index=True)
+
+# -------------------------------------------------------------------
+# MININET VALIDATION
+# -------------------------------------------------------------------
+elif page == "Mininet Validation":
+    page_heading(
+        "Mininet validation",
+        "Review the saved evidence from the controlled benign TCP-flow experiment."
+    )
+
+    st.warning(
+        "Offline experimental evidence only. This page displays the saved prediction "
+        "record; it does not rerun the classifier or monitor a live network."
+    )
+
+    required_files = [
+        MININET_FLOWS_PATH,
+        MININET_PREDICTIONS_PATH,
+        MININET_MANIFEST_PATH,
+    ]
+    missing_files = [str(file.relative_to(BASE_DIR)) for file in required_files if not file.exists()]
+
+    if missing_files:
+        st.error("Required Mininet evidence files are missing: " + ", ".join(missing_files))
+    else:
+        try:
+            mininet_flows = pd.read_csv(MININET_FLOWS_PATH)
+            mininet_predictions = pd.read_csv(MININET_PREDICTIONS_PATH)
+            mininet_manifest = pd.read_csv(MININET_MANIFEST_PATH)
+
+            prediction_columns = {
+                "Ground Truth",
+                "Predicted Label",
+                "Prediction Confidence",
+                "Flow ID",
+            }
+            flow_columns = {
+                "Flow ID",
+                "Source IP",
+                "Source Port",
+                "Destination IP",
+                "Destination Port",
+                "Protocol",
+                "Total Fwd Packets",
+                "Total Backward Packets",
+                "Total Length of Fwd Packets",
+            }
+            manifest_columns = {"File", "SizeBytes", "SHA256"}
+
+            if not prediction_columns.issubset(mininet_predictions.columns):
+                st.error("The saved Mininet prediction file has an unexpected column structure.")
+            elif not flow_columns.issubset(mininet_flows.columns):
+                st.error("The saved Mininet flow file has an unexpected column structure.")
+            elif not manifest_columns.issubset(mininet_manifest.columns):
+                st.error("The Mininet SHA256 manifest has an unexpected column structure.")
+            elif mininet_predictions.empty or mininet_flows.empty:
+                st.warning("The saved Mininet flow or prediction file contains no records.")
+            else:
+                saved_prediction = mininet_predictions.iloc[0]
+                confidence = float(saved_prediction["Prediction Confidence"]) * 100
+
+                st.markdown("### Recorded experiment summary")
+                m1, m2, m3, m4 = st.columns(4)
+                m1.metric("Captured flow records", f"{len(mininet_flows):,}")
+                m2.metric("Saved prediction records", f"{len(mininet_predictions):,}")
+                m3.metric("Ground truth", str(saved_prediction["Ground Truth"]))
+                m4.metric("Prediction confidence", f"{confidence:.1f}%")
+
+                st.markdown("### Saved prediction evidence")
+                st.dataframe(
+                    mininet_predictions[
+                        [
+                            "Flow ID",
+                            "Source IP",
+                            "Source Port",
+                            "Destination IP",
+                            "Destination Port",
+                            "Ground Truth",
+                            "Predicted Label",
+                            "Prediction Confidence",
+                        ]
+                    ],
+                    use_container_width=True,
+                    hide_index=True,
+                )
+
+                st.caption(
+                    "The prediction and confidence above are read directly from the saved "
+                    "experiment CSV. They are not newly generated by this dashboard."
+                )
+
+                st.markdown("### Captured flow details")
+                visible_flow_columns = [
+                    "Flow ID",
+                    "Source IP",
+                    "Source Port",
+                    "Destination IP",
+                    "Destination Port",
+                    "Protocol",
+                    "Total Fwd Packets",
+                    "Total Backward Packets",
+                    "Total Length of Fwd Packets",
+                ]
+                st.dataframe(
+                    mininet_flows[visible_flow_columns],
+                    use_container_width=True,
+                    hide_index=True,
+                )
+                st.caption(
+                    "The captured experiment used a controlled TCP transfer with 500,000 "
+                    "forward payload bytes. The flow record is presented as captured evidence."
+                )
+
+                st.markdown("### Evidence integrity manifest")
+                st.dataframe(
+                    mininet_manifest,
+                    use_container_width=True,
+                    hide_index=True,
+                )
+                st.caption(
+                    f"The saved manifest contains {len(mininet_manifest):,} file records "
+                    "with their recorded sizes and SHA256 hashes."
+                )
+
+                st.markdown("### Experimental scope and limitations")
+                st.warning(
+                    "This experiment contains one controlled benign TCP flow only. "
+                    "It does not test attack traffic, establish statistically meaningful "
+                    "independent accuracy, or demonstrate model generalization."
+                )
+                st.markdown(
+                    "- Ground truth and prediction are shown as recorded in the saved evidence.\n"
+                    "- A single matching benign prediction is not an independent accuracy evaluation.\n"
+                    "- No live network monitoring or continuous detection is performed.\n"
+                    "- The extracted flow uses `Fwd Header Length`, whereas the selected model "
+                    "feature is `Fwd Header Length.1`; therefore this page does not rerun "
+                    "the model against the flow CSV."
+                )
+
+        except (OSError, pd.errors.ParserError, KeyError, ValueError, TypeError) as exc:
+            st.error(f"Could not read or display the saved Mininet evidence: {exc}")
 
 # -------------------------------------------------------------------
 # FOOTER

@@ -1,1 +1,11 @@
-*.csv filter=lfs diff=lfs merge=lfs -text
+data/Friday-WorkingHours-Afternoon-DDos.pcap_ISCX.csv filter=lfs diff=lfs merge=lfs -text
+data/Friday-WorkingHours-Afternoon-PortScan.pcap_ISCX.csv filter=lfs diff=lfs merge=lfs -text
+data/Friday-WorkingHours-Morning.pcap_ISCX.csv filter=lfs diff=lfs merge=lfs -text
+data/Monday-WorkingHours.pcap_ISCX.csv filter=lfs diff=lfs merge=lfs -text
+data/Thursday-WorkingHours-Afternoon-Infilteration.pcap_ISCX.csv filter=lfs diff=lfs merge=lfs -text
+data/Thursday-WorkingHours-Morning-WebAttacks.pcap_ISCX.csv filter=lfs diff=lfs merge=lfs -text
+data/Tuesday-WorkingHours.pcap_ISCX.csv filter=lfs diff=lfs merge=lfs -text
+data/Wednesday-workingHours.pcap_ISCX.csv filter=lfs diff=lfs merge=lfs -text
+data/balanced_ids_dataset.csv filter=lfs diff=lfs merge=lfs -text
+data/combined_ids_dataset.csv filter=lfs diff=lfs merge=lfs -text
+results/quantum_feature_selection_history.csv filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,32 @@
+Experiment: Paced controlled benign TCP traffic
+Topology: Two hosts connected through OVSBridge
+Source host: h1 (10.0.0.1)
+Destination host: h2 (10.0.0.2)
+Capture interface: h1-eth0
+TCP destination port: 5002
+Traffic generator: Python TCP socket
+Target application bytes: 500000
+Chunk size: 1000
+Delay between chunks: 0.02 seconds
+Pre-capture connectivity packet loss: 0.0%
+h1 ethtool command output: No error reported
+h1 TSO/GSO verified off
+h2 ethtool command output: No error reported
+h2 TSO/GSO verified off
+
+=== TCP SENDER OUTPUT ===
+SENT_BYTES=500000
+GENERATION_SECONDS=10.287
+APPLICATION_RATE_BYTES_PER_SECOND=48605.57
+
+TCP sender exit code: 0
+
+=== TCP RECEIVER OUTPUT ===
+RECEIVED_BYTES=500000
+
+
+=== TCPDUMP CAPTURE SUMMARY ===
+tcpdump: listening on h1-eth0, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+1006 packets captured
+1006 packets received by filter
+0 packets dropped by kernel

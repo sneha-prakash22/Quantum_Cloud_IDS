@@ -1,0 +1,21 @@
+feature,importance
+Idle Max,0.11760263
+Destination Port,0.11376901
+Fwd PSH Flags,0.084767014
+Bwd IAT Total,0.07490323
+PSH Flag Count,0.07297878
+Init_Win_bytes_backward,0.07271176
+Avg Bwd Segment Size,0.07037125
+act_data_pkt_fwd,0.058527406
+Bwd Packet Length Max,0.055199783
+Idle Mean,0.05500855
+Bwd IAT Std,0.043373585
+Bwd IAT Min,0.040329076
+Subflow Bwd Packets,0.039433435
+Active Max,0.026903888
+Fwd Header Length.1,0.02690358
+Idle Std,0.016203096
+Flow Packets/s,0.008844253
+Fwd IAT Max,0.008548375
+URG Flag Count,0.008447013
+Fwd IAT Min,0.00517431
