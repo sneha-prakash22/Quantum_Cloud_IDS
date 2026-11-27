@@ -45,7 +45,7 @@ st.set_page_config(
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_PATH = BASE_DIR / "data" / "balanced_ids_dataset.csv"
-MODEL_URL = "https://github.com/sneha-prakash22/Quantum_Cloud_IDS/releases/download/v1.0-model/extra_trees_20_features_model.pkl"
+MODEL_URL = "https://github.com/sneha-prakash22/Quantum_Cloud_IDS/releases/download/v1.0.0/extra_trees_20_features_model.pkl"
 MODEL_SHA256 = "C2D3466333A7D1C0826C109774E60FE779677173EE4E7CECFBDC27A0E19262F5"
 MODEL_PATH = BASE_DIR / "models" / "extra_trees_20_features_model.pkl"
 ENCODER_PATH = BASE_DIR / "models" / "extra_trees_20_features_label_encoder.pkl"
